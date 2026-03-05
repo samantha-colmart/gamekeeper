@@ -50,11 +50,11 @@ class User extends Database {
     }
 
     // Fonction pour enregistrer les données d'inscription de l'utilisateur dans la BDD
-    private function recording(string $role){
+    private function recording(){
         $hash = password_hash($this->password, PASSWORD_DEFAULT);
-        $sql = "INSERT INTO user (email, password, role) VALUES (:email, :password, :role)";
+        $sql = "INSERT INTO user (pseudo, email, password) VALUES (:pseudo, :email, :password)";
         $query = $this->pdo->prepare($sql);
-        $query->execute([':email' => $this->email, ':password' => $hash, ':role' => $role]);
+        $query->execute([':pseudo' => $this->pseudo, ':email' => $this->email, ':password' => $hash]);
         return true;
     }
 
@@ -78,11 +78,27 @@ class User extends Database {
         if ($validation !== true) {
             return $validation;
         }
-        $role = "utilisateur";
-        if (str_contains($this->email, 'admin')) {
-            $role = "admin";
+        return $this->recording();
+    }
+
+    // ------------------------------------- Connexion ------------------------------------------
+
+    // Récupération des informations d'un utilisateur
+    private function user_by_email(){
+        $sql = "SELECT id, password FROM user WHERE email = :email";
+        $query = $this->pdo->prepare($sql);
+        $query->execute([':email' => $this->email]);
+        return $query->fetch(PDO::FETCH_ASSOC);
+    }
+
+    // Verification validité données
+    public function log_in() {
+        $user = $this->user_by_email();
+        if ($user === false || !password_verify($this->password, $user["password"])) {
+            return "Identifiant ou mot de passe incorrect";
         }
-        return $this->recording($role);
+        $_SESSION['user_id'] = $user['id'];
+        return true;
     }
 
 }
