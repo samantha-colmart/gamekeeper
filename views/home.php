@@ -6,13 +6,13 @@ require_once "layout/header.php";
     <h1>Gérer votre Collection de Jeux Vidéos</h1>
     <p>GameKeeper vous permet d'organiser, suivre et analyser votre bibliothèque de jeux avec une interface immersive et des fonctionnalités avancées.</p>
     <div class="hero-buttons">
-        <a href="inscription.php">
+        <a href="index.php?action=register">
             <button class="btn-primary">
                 Créer votre collection 
                 <i class="fa-solid fa-arrow-right-long"></i>
             </button>
         </a>
-        <a href="connexion.php">
+        <a href="index.php?action=login">
             <button class="btn-secondary">Se connecter</button>
         </a>
     </div>
@@ -62,7 +62,7 @@ require_once "layout/header.php";
     <i class="fa-solid fa-gamepad"></i>  
     <h2>Prêt à Organiser Votre Collection ?</h2>
     <p>Rejoignez XPTracker et découvrez une nouvelle façon de gérer vos jeux vidéo.</p>
-    <a href="inscription.php">
+    <a href="index.php?action=register">
         <button class="btn-primary">
             Créer votre collection
             <i class="fa-solid fa-arrow-right-long"></i>

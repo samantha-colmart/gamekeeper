@@ -20,7 +20,7 @@ require_once "layout/header.php";
         </form>
         <div class="bottom-text">
             <p>Pas encore de compte ?</p>
-            <a href="inscription.php">Créer un compte</a>
+            <a href="index.php?action=register">Créer un compte</a>
         </div>
     </div>
 </section>

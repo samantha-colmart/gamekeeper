@@ -3,7 +3,7 @@ require_once "layout/header.php";
 ?>
 
 <section class="container-add-game">
-    <a href="#" class="back-link">
+    <a href="index.php?action=collection" class="back-link">
         <i class="fa-solid fa-arrow-left"></i> Retour à la collection
     </a>
 

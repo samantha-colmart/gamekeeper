@@ -9,7 +9,7 @@ require_once "layout/header.php";
         <p class="error-text">
             Oups… la page que vous cherchez semble avoir disparu dans une autre dimension.
         </p>
-        <a href="accueil.php" class="btn-primary return-btn">
+        <a href="index.php?action=home" class="btn-primary return-btn">
             <i class="fa-solid fa-house"></i>
             Retour à l'accueil
         </a>

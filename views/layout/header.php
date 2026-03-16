@@ -14,15 +14,15 @@
 
 <body>
     <header class="header">
-        <a href="accueil.php" class="logo">
+        <a href="index.php?action=home" class="logo">
             <i class="fa-solid fa-gamepad"></i>    
             <p>XPTracker</p>
         </a>
         <nav class="nav-buttons">
-            <a href="inscription.php">
+            <a href="index.php?action=register">
                 <button class="btn-primary">Inscription</button>
             </a>
-            <a href="connexion.php">
+            <a href="index.php?action=login">
                 <button class="btn-secondary">Connexion</button>
             </a>
         </nav>

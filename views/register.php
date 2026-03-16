@@ -28,7 +28,7 @@ require_once "layout/header.php";
         </form>
         <div class="bottom-text">
             <p>Vous avez déjà un compte ?</p>
-            <a href="connexion.php">Se connecter</a>
+            <a href="index.php?action=login">Se connecter</a>
         </div>
     </div>
 </section>
