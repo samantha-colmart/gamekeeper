@@ -371,3 +371,115 @@ body {
 }
 
 .footer-links a:hover { color: var(--cyan); }
+
+.container-form{
+    margin: 50px 10px;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+}
+
+.container-form i{
+    font-size:32px;
+    color:white;
+    background: var(--purple);
+    padding:20px;
+    border-radius:15px;
+    margin-bottom:20px;
+}
+
+.container-form h1{
+    font-family: 'Press Start 2P', monospace;
+    font-size:30px;
+    margin: 10px 0;
+}
+
+.container-form > p{
+    color: var(--grey);
+    margin: 20px 0 30px;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.card-form{
+    background:#0F182C;
+    padding:40px;
+    border-radius:15px;
+    width:500px;
+    border: 1px solid var(--dark-purple);
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+    text-align:left;
+    margin-bottom:18px;
+}
+
+.form-group label{
+    font-size:14px;
+    margin-bottom:6px;
+    color: var(--grey);
+}
+
+.form-group input{
+    padding:12px;
+    border-radius:8px;
+    border:1px solid var(--dark-purple);
+    background:#0F182C;
+    color:white;
+    outline:none;
+    transition:0.2s;
+}
+
+.form-group input:focus{
+    border-color:#7a3cff;
+    box-shadow:0 0 5px rgba(122,60,255,0.5);
+}
+
+.btn{
+    width:100%;
+    padding:14px;
+    margin-top:10px;
+    border:none;
+    border-radius:8px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    transition:0.2s;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: 700;
+    font-size: 0.95rem;
+    letter-spacing: 0.07em;
+    cursor: pointer;
+    background: linear-gradient(135deg, var(--purple), #7b1ccc);
+}
+
+
+.btn:hover{
+    transform:scale(1.02);
+}
+
+
+.bottom-text{
+    margin-top:25px;
+    color: var(--grey);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.bottom-text a{
+    display:block;
+    margin-top:8px;
+    color: var(--purple);
+    text-decoration:none;
+    font-weight:500;
+}
+
+.bottom-text a:hover{
+    text-decoration:underline;
+}
