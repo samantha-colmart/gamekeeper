@@ -1,4 +1,6 @@
-
+<?php
+require_once "layout/header.php";
+?>
 
 <section class="container-form">
     <i class="fa-solid fa-gamepad"></i>
@@ -17,8 +19,12 @@
             <button type="submit" class="btn">Se connecter</button>
         </form>
         <div class="bottom-text">
-            <p>Vous avez déjà un compte ?</p>
-            <a href="../index.php?action=register"">Créer un compte</a>
+            <p>Pas encore de compte ?</p>
+            <a href="inscription.php">Créer un compte</a>
         </div>
     </div>
 </section>
+
+<?php
+require_once "layout/footer.php";
+?>
