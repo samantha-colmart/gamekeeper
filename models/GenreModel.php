@@ -13,16 +13,18 @@ class Genre extends Database {
 
     // Méthode pour récupérer tous les genres de jeu
     public static function getAllGenres(): array {
+        $db = new Database();
         $sql = "SELECT * FROM genre";
-        $query = $this->pdo->prepare($sql);
+        $query = $db->pdo->prepare($sql);
         $query->execute();
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Méthode pour récupérer tous les genres d'un jeu
     public static function getGenreByGame(int $game_id): array {
+        $db = new Database();
         $sql = "SELECT * FROM genre INNER JOIN game_genre ON genre.id = game_genre.genre_id WHERE game_genre.game_id = :game_id";
-        $query = $this->pdo->prepare($sql);
+        $query = $db->pdo->prepare($sql);
         $query->execute([':game_id' => $game_id]);
         return $query->fetchAll(PDO::FETCH_ASSOC);
     }
