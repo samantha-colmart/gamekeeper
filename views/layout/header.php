@@ -27,11 +27,11 @@
                     <p>Collection</p>
                 </a>
                 <a href="index.php?action=statistics" class="nav-links">
-                    <i class="fa-solid fa-border-all"></i>
+                    <i class="fa-regular fa-user"></i>
                     <p>Profil</p>
                 </a>
                 <a href="index.php?action=logout" class="nav-links">
-                    <i class="fa-solid fa-border-all"></i>
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i>
                     <p>Deconnexion</p>
                 </a>
                 ';
