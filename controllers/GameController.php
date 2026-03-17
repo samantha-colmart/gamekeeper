@@ -18,9 +18,12 @@ class GameController {
         $total = Game::countAll($id_user);
         $allPlatforms = Platform::getAllPlatforms();
         $allGenres = Genre::getAllGenres();
-        foreach ($games as $key => $game) {
-            $games[$key]['platforms'] = Platform::getPlatformsByGame($game['id']);
-            $games[$key]['genres'] = Genre::getGenresByGame($game['id']);
+        foreach ($games as $game) {
+            $platforms = Platform::getPlatformsByGame($game->getId());
+            $genres = Genre::getGenresByGame($game->getId());
+
+            $game->setPlatforms($platforms);
+            $game->setGenres($genres);
         }
         require 'views/collection.php';
     }

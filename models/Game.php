@@ -20,6 +20,8 @@ class Game extends Database {
     private string $status;
     private string $studio;
     private int $id_user;
+    private array $platforms = [];
+    private array $genres = [];
 
     public function __construct(string $title, string $description, string $image, float $price, int $release_year, int $note , int $duration, bool $favorite, string $status, string $studio, int $id_user, ?int $id = null){
         parent::__construct();
@@ -88,6 +90,14 @@ class Game extends Database {
         return $this->id_user;
     }
 
+    public function getPlatforms(): array {
+        return $this->platforms;
+    }
+
+    public function getGenres(): array {
+        return $this->genres;
+    }
+
     // -------------------------------------- Setters ------------------------------------
 
     public function setTitle(string $NewTitle): void {
@@ -124,6 +134,14 @@ class Game extends Database {
 
     public function setStudio(string $NewStudio): void {
         $this->studio = $NewStudio;
+    }
+
+    public function setPlatforms(array $platforms): void {
+        $this->platforms = $platforms;
+    }
+
+    public function setGenres(array $genres): void {
+        $this->genres = $genres;
     }
 
     // -------------------------------------- Méthodes CRUD ------------------------------------
@@ -196,7 +214,7 @@ class Game extends Database {
         if (!$row) {
             return null;
         }
-        return new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id']);
+        return new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
     }
 
 }

@@ -32,7 +32,7 @@ require_once "layout/header.php";
                             <option value="all">Toutes les plateformes</option>
                             <?php
                             foreach ($allPlatforms as $value) {
-                                echo '<option value="' . $value["console"] . '">' . $value["console"] . '</option>';
+                                echo '<option value="' . $value->getConsole() . '">' . $value->getConsole() . '</option>';
                             }
                             ?>
                         </select>
@@ -40,7 +40,7 @@ require_once "layout/header.php";
                             <option value="all">Tous les genres</option>
                             <?php
                             foreach ($allGenres as $value) {
-                                echo '<option value="' . $value["type"] . '">' . $value["type"] . '</option>';
+                                echo '<option value="' . $value->getType() . '">' . $value->getType(). '</option>';
                             }
                             ?>
                         </select>
@@ -65,21 +65,21 @@ require_once "layout/header.php";
                         <div class="card-img">
                             <div class="note">
                                 <i class="fa-solid fa-star"></i>
-                                <p>' . $game["note"] . ' / 10</p>
+                                <p>' . $game->getNote() . ' / 10</p>
                             </div>
-                            <img src="images/' . $game["image"] . '" alt="Photo ' . $game["title"] . '">
+                            <img src="images/' . $game->getImage() . '" alt="Photo ' . $game->getTitle() . '">
                         </div>
                         <div class="card-content">
-                            <h2>' . $game["title"] . '</h2>
+                            <h2>' . $game->getTitle() . '</h2>
                             <div class="badge-line">';
-                                foreach ($game["platforms"] as $platform) {
-                                    echo '<p class="cyan">' . $platform["console"] . '</p>';
+                                foreach ($game->getPlatforms() as $platform) {
+                                    echo '<p class="cyan">' . $platform->getConsole() . '</p>';
                                 }
                             echo '</div>
                             <div class="footer-content">
                                 <div class="time">
                                     <i class="fa-regular fa-clock"></i>
-                                    <p>' . $game["duration"] . 'h de jeu</p>
+                                    <p>' . $game->getDuration() . 'h de jeu</p>
                                 </div>
                                 <button type="submit" name="like" class="like-btn">
                                     <i class="fa-solid fa-heart"></i>
