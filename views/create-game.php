@@ -12,6 +12,11 @@ require_once "layout/header.php";
         <p>Remplissez les informations pour ajouter un nouveau jeu à votre collection</p>
 
         <form method="post" enctype="multipart/form-data" action="">
+            <?php 
+            if (!empty($error)){
+                echo '<p class="form-error">' . $error .  '</p>';
+            }
+            ?>
             <div class="form-card">
                 <h3>Image de couverture</h3>
                 <input type="file" id="cover" name="cover" accept="image/*">
