@@ -55,6 +55,15 @@ textarea {
     color: #FFCD29;
 }
 
+.form-error {
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 20px;
+    background: rgba(236, 72, 153, 0.2);
+    color: #EC4899;
+    border: 1px solid #EC4899;
+}
+
 :root {
   --purple: #9D24FD;
   --cyan: #25CBF5;
