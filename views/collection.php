@@ -60,7 +60,7 @@ require_once "layout/header.php";
         echo '<div class="grid-collection">';
             foreach ($games as $game) {
                 echo '
-                <a href="">
+                <a href="index.php?action=game-details&id=' . $game->getId() . '">
                     <article class="card-colection">
                         <div class="card-img">
                             <div class="note">

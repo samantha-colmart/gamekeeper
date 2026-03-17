@@ -109,6 +109,19 @@ class GameController {
         require 'views/create-game.php';
     }
 
+    public function GameDetails() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit;
+        } elseif (!isset($_GET['id'])){
+            header("Location: index.php?action=collection");
+            exit;
+        }
+        $game_id = (int)$_GET['id'];
+        $game = Game::getById($game_id);
+        require 'views/game-details.php';
+    }
+
 
 // if($success){
 //             $filePath = '../images/' . $this->image;
