@@ -19,12 +19,33 @@
             <p>XPTracker</p>
         </a>
         <nav class="nav-buttons">
-            <a href="index.php?action=register">
-                <button class="btn-primary">Inscription</button>
-            </a>
-            <a href="index.php?action=login">
-                <button class="btn-secondary">Connexion</button>
-            </a>
+            <?php
+            if(!empty($_SESSION['user_id'])) {
+                echo '
+                <a href="index.php?action=collection" class="nav-links">
+                    <i class="fa-solid fa-border-all"></i>
+                    <p>Collection</p>
+                </a>
+                <a href="index.php?action=statistics" class="nav-links">
+                    <i class="fa-solid fa-border-all"></i>
+                    <p>Profil</p>
+                </a>
+                <a href="index.php?action=logout" class="nav-links">
+                    <i class="fa-solid fa-border-all"></i>
+                    <p>Deconnexion</p>
+                </a>
+                ';
+            } else {
+                echo '
+                <a href="index.php?action=register">
+                    <button class="btn-primary">Inscription</button>
+                </a>
+                <a href="index.php?action=login">
+                    <button class="btn-secondary">Connexion</button>
+                </a>
+                ';
+            }
+            ?>
         </nav>
     </header>
 <main>
