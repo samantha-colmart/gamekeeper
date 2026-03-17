@@ -8,6 +8,11 @@ require_once "layout/header.php";
     <p>Rejoignez GameKeeper et commencez à organiser votre collection</p>
     <div class="card-form">
         <form method="POST" action="">
+            <?php 
+            if (!empty($error)){
+                echo '<p class="form-error">' . $error .  '</p>';
+            }
+            ?>
             <div class="form-group">
                 <label for="pseudo">Pseudo</label>
                 <input type="text" name="pseudo" id="pseudo" required>

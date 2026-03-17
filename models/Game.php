@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use App\Config\Database;
-use App\Models\UserModel;
+use App\Models\User;
 use PDO;
 
 class Game extends Database {

@@ -8,6 +8,11 @@ require_once "layout/header.php";
     <p>Connectez-vous pour accéder à votre collection</p>
     <div class="card-form">
         <form method="POST" action="">
+            <?php 
+            if (!empty($error)){
+                echo '<p class="form-error">' . $error .  '</p>';
+            }
+            ?>
             <div class="form-group">
                 <label for="email">Email</label>
                 <input type="email" name="email" id="email" required>

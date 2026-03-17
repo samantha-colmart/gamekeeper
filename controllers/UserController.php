@@ -27,7 +27,7 @@ class UserController {
     // ---------------------- Inscription ----------------------
 
     public function register(){
-        if (!empty($_POST)) {
+        if (!empty($_POST['pseudo']) && !empty($_POST['email']) && !empty($_POST['password']) && !empty($_POST['confirm-password'])) {
             $pseudo = $_POST['pseudo'];
             $email = $_POST['email'];
             $password = $_POST['password'];
@@ -41,7 +41,7 @@ class UserController {
                     $error = "Cet email est déjà utilisé";
                 } else {
                     if ($user->create()) {
-                        header("Location: index.php");
+                        header("Location: index.php?action=login");
                         exit;
                     } else {
                         $error = "Erreur lors de l'inscription";
@@ -65,7 +65,7 @@ class UserController {
                 $error = "Identifiant ou mot de passe incorrect";
             } else {
                 $_SESSION['user_id'] = $data['id'];
-                header("Location: index.php");
+                header("Location: index.php?action=collection");
                 exit;
             }
         }
