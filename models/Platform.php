@@ -53,6 +53,14 @@ class Platform extends Database {
         }
         return $platforms;
     }
+
+    // Méthode pour lier une plateforme à un jeu
+    public static function addPlatformToGame(int $gameId, int $platformId): bool {
+        $db = new Database();
+        $sql = "INSERT INTO game_platform (game_id, platform_id) VALUES (:game_id, :platform_id)";
+        $query = $db->pdo->prepare($sql);
+        return $query->execute([':game_id' => $gameId, ':platform_id' => $platformId]);
+    }
 }
 
 ?>

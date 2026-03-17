@@ -18,6 +18,10 @@ class Genre extends Database {
 
     // -------------------------------------- Getters ------------------------------------
 
+    public function getId(): int {
+        return $this->id;
+    }
+
     public function getType(): string {
         return $this->type;
     }
@@ -48,6 +52,14 @@ class Genre extends Database {
             $genres[] = new Genre($row['id'], $row['type']);
         }
         return $genres;
+    }
+
+    // Méthode pour lier un genre à un jeu
+    public static function addGenreToGame(int $gameId, int $genreId): bool {
+        $db = new Database();
+        $sql = "INSERT INTO game_genre (game_id, genre_id) VALUES (:game_id, :genre_id)";
+        $query = $db->pdo->prepare($sql);
+        return $query->execute([':game_id' => $gameId, ':genre_id' => $genreId]);
     }
 }
 

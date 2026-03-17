@@ -24,6 +24,9 @@ switch ($action) {
     case 'collection':
         $gameController->collection();
         break;
+    case 'create-game':
+        $gameController->addGame();
+        break;
     default:
         require 'views/home.php';
 }
