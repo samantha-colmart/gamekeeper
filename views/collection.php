@@ -6,9 +6,15 @@ require_once "layout/header.php";
     <div class="top-bar">
         <div>
             <h1>Ma Collection</h1>
-            <p>4 jeux dans votre bibliothèque</p>
+            <?php
+            if($total > 0){
+                echo '<p>' . $total . ' jeux dans votre bibliothèque</p>';
+            } else {
+                echo '<p>Aucun jeu pour le moment</p>';
+            }
+            ?>
         </div>
-        <a href="../index.php?action=create-game" class="create-btn">
+        <a href="index.php?action=create-game" class="create-btn">
             <i class="fa-solid fa-circle-plus"></i>
             <p>Ajouter un jeu</p>
         </a>
@@ -24,9 +30,19 @@ require_once "layout/header.php";
                     <div class="filters">
                         <select name="platform" id="platform-select">
                             <option value="all">Toutes les plateformes</option>
+                            <?php
+                            foreach ($allPlatforms as $value) {
+                                echo '<option value="' . $value["console"] . '">' . $value["console"] . '</option>';
+                            }
+                            ?>
                         </select>
                         <select name="genre" id="genre-select">
                             <option value="all">Tous les genres</option>
+                            <?php
+                            foreach ($allGenres as $value) {
+                                echo '<option value="' . $value["type"] . '">' . $value["type"] . '</option>';
+                            }
+                            ?>
                         </select>
                     </div>
                 </form>
@@ -39,60 +55,46 @@ require_once "layout/header.php";
             <button class="btn-filters" type="button">Mes favoris</button>
         </div>
     </div>
-    <div class="grid-collection">
-        <a href="">
-            <article class="card-colection">
-                <div class="card-img">
-                    <div class="note">
-                        <i class="fa-solid fa-star"></i>
-                        <p>8 / 10</p>
-                    </div>
-                    <img src="images/wallpapersden.com_hogwarts-legacy-poster_1920x2322.jpg" alt="">
-                </div>
-                <div class="card-content">
-                    <h2>Titre</h2>
-                    <div class="badge-line">
-                        <p class="cyan">Badge</p>
-                    </div>
-                    <div class="footer-content">
-                        <div class="time">
-                            <i class="fa-regular fa-clock"></i>
-                            <p>114h de jeu</p>
+    <?php
+    if(count($games) > 0){
+        echo '<div class="grid-collection">';
+            foreach ($games as $game) {
+                echo '
+                <a href="">
+                    <article class="card-colection">
+                        <div class="card-img">
+                            <div class="note">
+                                <i class="fa-solid fa-star"></i>
+                                <p>' . $game["note"] . ' / 10</p>
+                            </div>
+                            <img src="images/' . $game["image"] . '" alt="Photo ' . $game["title"] . '">
                         </div>
-                        <button type="submit" name="like" class="like-btn">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </article>
-        </a>
-        <a href="">
-            <article class="card-colection">
-                <div class="card-img">
-                    <div class="note">
-                        <i class="fa-solid fa-star"></i>
-                        <p>8 / 10</p>
-                    </div>
-                    <img src="images/wallpapersden.com_hogwarts-legacy-poster_1920x2322.jpg" alt="">
-                </div>
-                <div class="card-content">
-                    <h2>Titre</h2>
-                    <div class="badge-line">
-                        <p class="cyan">Badge</p>
-                    </div>
-                    <div class="footer-content">
-                        <div class="time">
-                            <i class="fa-regular fa-clock"></i>
-                            <p>114h de jeu</p>
+                        <div class="card-content">
+                            <h2>' . $game["title"] . '</h2>
+                            <div class="badge-line">';
+                                foreach ($game["platforms"] as $platform) {
+                                    echo '<p class="cyan">' . $platform["console"] . '</p>';
+                                }
+                            echo '</div>
+                            <div class="footer-content">
+                                <div class="time">
+                                    <i class="fa-regular fa-clock"></i>
+                                    <p>' . $game["duration"] . 'h de jeu</p>
+                                </div>
+                                <button type="submit" name="like" class="like-btn">
+                                    <i class="fa-solid fa-heart"></i>
+                                </button>
+                            </div>
                         </div>
-                        <button type="submit" name="like" class="like-btn">
-                            <i class="fa-regular fa-heart"></i>
-                        </button>
-                    </div>
-                </div>
-            </article>
-        </a>
-    </div>
+                    </article>
+                </a>
+                ';
+            }
+        echo '</div>';
+    } else {
+        echo '<h3>Votre collection est vide</h3>';
+    }
+    ?>
 </section>
 
 <?php

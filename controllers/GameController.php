@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Models\Game;
+use App\Models\Platform;
+use App\Models\Genre;
 
 class GameController {
 
@@ -14,6 +16,12 @@ class GameController {
         $id_user = $_SESSION['user_id'];
         $games = Game::getAll($id_user);
         $total = Game::countAll($id_user);
+        $allPlatforms = Platform::getAllPlatforms();
+        $allGenres = Genre::getAllGenres();
+        foreach ($games as $key => $game) {
+            $games[$key]['platforms'] = Platform::getPlatformsByGame($game['id']);
+            $games[$key]['genres'] = Genre::getGenresByGame($game['id']);
+        }
         require 'views/collection.php';
     }
 
