@@ -182,7 +182,7 @@ class Game extends Database {
         $sql = "SELECT COUNT(*) AS total FROM game WHERE id_user = :id_user";
         $query = $db->pdo->prepare($sql);
         $query->execute([':id_user' => $id_user]);
-        $result = $query->fetchAll(PDO::FETCH_ASSOC);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
         return (int)$result['total'];
     }
 

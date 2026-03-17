@@ -13,7 +13,6 @@ class User extends Database {
     private string $password;
 
     public function __construct(string $pseudo, string $email, string $password) {
-        session_start();
         parent::__construct();
         $this->pseudo = $pseudo;
         $this->email = $email;
