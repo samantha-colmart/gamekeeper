@@ -19,11 +19,15 @@ require_once "layout/header.php";
             ?>
             <div class="form-card">
                 <h3>Image de couverture</h3>
-                <input type="file" id="cover" name="cover" accept="image/*">
                 <label for="cover" class="cover-upload">
-                    <i class="fa-solid fa-image"></i>
-                    <span>Choisir une image</span>
+                    <img id="previewImage" alt="Image prévisualisée">
+                    <div class="inputImage">
+                        <i class="fa-solid fa-image"></i>
+                        <span>Choisir une image (5 Mo max)</span>
+                    </div>
                 </label>
+                <input type="file" id="cover" name="cover" accept="image/*">
+                <script src="js/preview.js"></script>
             </div>
 
             <div class="form-card">
