@@ -30,6 +30,9 @@ switch ($action) {
     case 'game-details':
         $gameController->GameDetails();
         break;
+    case 'error404':
+        $gameController->error404();
+        break;
     default:
         require 'views/home.php';
 }

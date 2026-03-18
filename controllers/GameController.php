@@ -122,6 +122,10 @@ class GameController {
         require 'views/game-details.php';
     }
 
+    public function error404(){
+        require 'views/error404.php';
+    }
+
 
 // if($success){
 //             $filePath = '../images/' . $this->image;
