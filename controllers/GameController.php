@@ -126,6 +126,31 @@ class GameController {
         require 'views/error404.php';
     }
 
+    public function search() {
+        if(isset($_GET['keyword'])) {
+            $keyword = $_GET['keyword'];
+        }
+        $id_user = $_SESSION['user_id'];
+        $games = Game::searchByKeyword($keyword, $id_user);
+        $result = [];
+        foreach ($games as $game) {
+            $platforms = Platform::getPlatformsByGame($game->getId());
+            $platformNames = [];
+            foreach ($platforms as $p) {
+                $platformNames[] = $p->getConsole();
+            }
+            $result[] = [
+                "id" => $game->getId(),
+                "title" => $game->getTitle(),
+                "image" => $game->getImage(),
+                "note" => $game->getNote(),
+                "duration" => $game->getDuration(),
+                "platforms" => $platformNames
+            ];
+        }
+        echo json_encode($result);
+    }
+
 
 // if($success){
 //             $filePath = '../images/' . $this->image;

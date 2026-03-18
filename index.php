@@ -33,6 +33,9 @@ switch ($action) {
     case 'error404':
         $gameController->error404();
         break;
+    case 'search':
+        $controller->search();
+        break;
     default:
         require 'views/home.php';
 }

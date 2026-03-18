@@ -25,7 +25,7 @@ require_once "layout/header.php";
                 <form action="" method="GET">
                     <div class="search-bar">
                         <i class="fa-brands fa-sistrix"></i>
-                        <input type="search" name="search" placeholder="Rechercher un jeu...">
+                        <input type="search" id="myKeyword" name="search" placeholder="Rechercher un jeu..." onkeyup="searchKeyword()" >
                     </div>
                     <div class="filters">
                         <select name="platform" id="platform-select">
@@ -96,7 +96,7 @@ require_once "layout/header.php";
     }
     ?>
 </section>
-
+<script src="js/collection.js"></script>
 <?php
 require_once "layout/footer.php";
 ?>

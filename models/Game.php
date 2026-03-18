@@ -217,6 +217,19 @@ class Game extends Database {
         return new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
     }
 
+    public static function searchByKeyword($keyword, $id_user) {
+        $db = new Database();
+        $sql = "SELECT * FROM game WHERE id_user = :id_user AND title LIKE :keyword";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user,':keyword' => '%' . $keyword . '%']);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $games = [];
+        foreach ($results as $row) {
+            $games[] = new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
+        }
+        return $games;
+    }
+
 }
 
 
