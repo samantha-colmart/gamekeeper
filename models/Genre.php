@@ -61,6 +61,14 @@ class Genre extends Database {
         $query = $db->pdo->prepare($sql);
         return $query->execute([':game_id' => $gameId, ':genre_id' => $genreId]);
     }
+
+    // Supprime tous les genres d’un jeu
+    public static function deleteGenresFromGame(int $gameId): bool {
+        $db = new Database();
+        $sql = "DELETE FROM game_genre WHERE game_id = :game_id";
+        $stmt = $db->pdo->prepare($sql);
+        return $stmt->execute([':game_id' => $gameId]);
+    }
 }
 
 ?>

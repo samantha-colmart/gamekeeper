@@ -23,7 +23,7 @@ class GameController {
             return false;
         }
         $new_image_name = $file_basename . '_' . date('Ymd_His') . '.' . $file_extension;
-        move_uploaded_file($files["cover"]["tmp_name"], '../images/' . $new_image_name);
+        move_uploaded_file($files["cover"]["tmp_name"], 'images/' . $new_image_name);
         $game->setImage($new_image_name);
         return true;
     }
@@ -40,7 +40,7 @@ class GameController {
         $allGenres = Genre::getAllGenres();
         foreach ($games as $game) {
             $platforms = Platform::getPlatformsByGame($game->getId());
-            $genres = Genre::getGenresByGame($game->getId());
+            $genres = Genre::getGenreByGame($game->getId());
 
             $game->setPlatforms($platforms);
             $game->setGenres($genres);
@@ -119,6 +119,10 @@ class GameController {
         }
         $game_id = (int)$_GET['id'];
         $game = Game::getById($game_id);
+        $platforms = Platform::getPlatformsByGame($game->getId());
+        $genres = Genre::getGenreByGame($game->getId());
+        $game->setPlatforms($platforms);
+        $game->setGenres($genres);
         require 'views/game-details.php';
     }
 
@@ -151,13 +155,121 @@ class GameController {
         echo json_encode($result);
     }
 
+    public function deleteGame() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
+            $game_id = (int) $_POST['id'];
+            $game = Game::getById($game_id);
+            if ($game) {
+                $filePath = 'images/' . $game->getImage();
+                if (file_exists($filePath)) {
+                    unlink($filePath);
+                }
+                $game->delete();
+                Platform::deletePlatformsFromGame($game_id);
+                Genre::deleteGenresFromGame($game_id);
+            }
+        }
+        header("Location: index.php?action=collection");
+        exit;
+    }
 
-// if($success){
-//             $filePath = '../images/' . $this->image;
-//             if (file_exists($filePath)) {
-//                 unlink($filePath);
-//             }
-//         }
+    public function updateGame() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        if (!isset($_GET['id'])) {
+            header("Location: index.php?action=collection");
+            exit;
+        }
+        $game_id = (int)$_GET['id'];
+        $game = Game::getById($game_id);
 
+        $allPlatforms = Platform::getAllPlatforms();
+        $allGenres = Genre::getAllGenres();
+
+        $selectedPlatforms = Platform::getPlatformsByGame($game_id);
+        $selectedGenres = Genre::getGenreByGame($game_id);
+
+        $selectedPlatformIds = [];
+        foreach ($selectedPlatforms as $p) {
+            $selectedPlatformIds[] = $p->getId();
+        }
+
+        $selectedGenreIds = [];
+        foreach ($selectedGenres as $g) {
+            $selectedGenreIds[] = $g->getId();
+        }
+
+        $error = null;
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $title = trim($_POST['title']);
+            $description = trim($_POST['description']);
+            $developer = trim($_POST['developer']);
+            $year = (int)$_POST['year'];
+            $playtime = (int)$_POST['playtime'];
+            $status = $_POST['status'];
+            $rating = (int)$_POST['rating'];
+            $price = (float)$_POST['price'];
+            if(isset($_POST['platforms'])){
+                $platforms = $_POST['platforms'];
+            } else {
+                $platforms = [];
+            }
+            if(isset($_POST['genres'])){
+                $genres = $_POST['genres'];
+            } else {
+                $genres = [];
+            }
+
+            if(empty($title) || empty($description) || empty($developer) || empty($year) || empty($playtime) || empty($status) || empty($rating) || empty($price)) {
+                $error = "Veuillez remplir tous les champs obligatoires.";
+            } elseif (empty($platforms)) {
+                $error = "Veuillez choisir au moins une plateforme.";
+            } elseif (empty($genres)) {
+                $error = "Veuillez choisir au moins un genre.";
+            } else {
+                $game->setTitle($title);
+                $game->setDescription($description);
+                $game->setStudio($developer);
+                $game->setReleaseYear($year);
+                $game->setDuration($playtime);
+                $game->setStatus($status);
+                $game->setNote($rating);
+                $game->setPrice($price);
+
+                if(isset($_FILES['cover']) && $_FILES['cover']['error'] === 0){
+                    $oldImagePath = 'images/' . $game->getImage();
+                    if(file_exists($oldImagePath)){
+                        unlink($oldImagePath);
+                    }
+                    $this->imageProcessing($game, $_FILES);
+                }
+
+                if($game->update()) {
+                    Platform::deletePlatformsFromGame($game_id);
+                    Genre::deleteGenresFromGame($game_id);
+
+                    foreach($platforms as $platformId){
+                        Platform::addPlatformToGame($game_id, (int)$platformId);
+                    }
+                    foreach($genres as $genreId){
+                        Genre::addGenreToGame($game_id, (int)$genreId);
+                    }
+
+                    header("Location: index.php?action=game-details&id=".$game_id);
+                    exit;
+                } else {
+                    $error = "Erreur lors de la mise à jour du jeu.";
+                }
+            }
+        }
+        require 'views/update-game.php';
+    }
 
 }

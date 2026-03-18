@@ -2,7 +2,7 @@ const searchKeyword = async () => {
     const container = document.querySelector(".grid-collection");
     container.innerHTML = "";
     let keyword = document.querySelector("#myKeyword").value;
-    if (keyword.length > 2) {
+    if (keyword.length > 0) {
         const req = await fetch(`index.php?action=search&keyword=${keyword}`);
         const json = await req.json();
         if (json.length > 0) {
@@ -26,7 +26,7 @@ const searchKeyword = async () => {
                         <div class="card-content">
                             <h2>${game.title}</h2>
 
-                            <div class="badge-line">
+                            <div class="badges-flex">
                                 ${platformsHTML}
                             </div>
 

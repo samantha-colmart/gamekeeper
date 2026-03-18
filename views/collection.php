@@ -71,7 +71,7 @@ require_once "layout/header.php";
                         </div>
                         <div class="card-content">
                             <h2>' . $game->getTitle() . '</h2>
-                            <div class="badge-line">';
+                            <div class="badges-flex">';
                                 foreach ($game->getPlatforms() as $platform) {
                                     echo '<p class="cyan">' . $platform->getConsole() . '</p>';
                                 }
@@ -81,9 +81,6 @@ require_once "layout/header.php";
                                     <i class="fa-regular fa-clock"></i>
                                     <p>' . $game->getDuration() . 'h de jeu</p>
                                 </div>
-                                <button type="submit" name="like" class="like-btn">
-                                    <i class="fa-solid fa-heart"></i>
-                                </button>
                             </div>
                         </div>
                     </article>

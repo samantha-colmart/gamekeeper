@@ -688,7 +688,7 @@ body {
     margin:0 0 20px 0;
 }
 
-.badge-line p{
+.badges-flex p{
     display:inline-block;
     padding:4px 10px;
     border-radius:15px;
@@ -1131,6 +1131,12 @@ color:var(--slate);
     flex-direction: column;
     align-items: center;
     gap: 1em;
+}
+
+.badges-flex {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6em;
 }
 
 

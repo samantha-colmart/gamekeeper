@@ -61,6 +61,14 @@ class Platform extends Database {
         $query = $db->pdo->prepare($sql);
         return $query->execute([':game_id' => $gameId, ':platform_id' => $platformId]);
     }
+
+    // Supprime toutes les plateformes d’un jeu
+    public static function deletePlatformsFromGame(int $gameId): bool {
+        $db = new Database();
+        $sql = "DELETE FROM game_platform WHERE game_id = :game_id";
+        $stmt = $db->pdo->prepare($sql);
+        return $stmt->execute([':game_id' => $gameId]);
+    }
 }
 
 ?>
