@@ -6,9 +6,9 @@ require_once "layout/header.php";
     <div class="game-cover">
         <div class="rating">
             <i class="fa-solid fa-star"></i>
-            <span>9 / 10</span>
+            <span><?php echo $game->getNote() ?> / 10</span>
         </div>
-        <img src="images/wallpapersden.com_hogwarts-legacy-poster_1920x2322.jpg" alt="Hogwarts Legacy">
+        <img src="images/<?php echo $game->getImage() ?>" alt="<?php echo $game->getTitle() ?>">
         <div class="favorite">
             <i class="fa-solid fa-heart"></i>
         </div>
@@ -16,7 +16,7 @@ require_once "layout/header.php";
     <div class="right-column">
         <div class="game-info">
             <div class="game-info-header">
-                <h1>Hogwarts Legacy</h1>
+                <h1><?php echo $game->getTitle() ?></h1>
                 <div class="actions">
                     <a href="">
                         <button class="edit">
@@ -37,49 +37,54 @@ require_once "layout/header.php";
                     <i class="fa-solid fa-clock purple"></i>
                     <div>
                         <span>Temps de jeu</span>
-                        <p>42h</p>
+                        <p><?php echo $game->getDuration() ?>h</p>
                     </div>
                 </div>
                 <div class="stat">
                     <i class="fa-solid fa-calendar cyan"></i>
                     <div>
                         <span>Sortie</span>
-                        <p>2023</p>
+                        <p><?php echo $game->getReleaseYear() ?></p>
                     </div>
                 </div>
                 <div class="stat">
                     <i class="fa-solid fa-tag yellow"></i>
                     <div>
                         <span>Prix</span>
-                        <p>69.99€</p>
+                        <p><?php echo $game->getPrice() ?>€</p>
                     </div>
                 </div>
             </div>
             <div class="info-block">
                 <label>Plateforme</label>
-                <span class="badge purple">PS5</span>
+                <?php
+                foreach ($game->getPlatforms() as $platform) {
+                    echo '<span class="badge purple">' . $platform->getConsole() . '</span>';
+                }
+                ?>
             </div>
             <div class="info-block">
                 <label>Genre</label>
-                <span class="badge cyan">Monde ouvert</span>
+                <?php
+                foreach ($game->getGenres() as $genre) {
+                    echo '<span class="badge cyan">' . $genre->getType() . '</span>';
+                }
+                ?>
             </div>
             <div class="developer">
                 <i class="fa-solid fa-building blue"></i>
                 <div>
                     <span>Développeur</span>
-                    <p>Avalanche Software</p>
+                    <p><?php echo $game->getStudio() ?></p>
                 </div>
             </div>
         </div>
         <div class="game-info">
             <div class="description">
                 <h2>Informations complémentaires</h2>
-                <p>Hogwarts Legacy : L'Héritage de Poudlard est un RPG d'action-aventure immersif en monde ouvert qui se déroule dans l'univers des livres Harry Potter. 
-                    Pour la première fois, découvrez Poudlard dans les années 1800. Vous incarnez une élève détenant la clé d'un ancien secret qui menace de déchirer le monde 
-                    des sorciers. Vous pouvez maintenant prendre le contrôle de l'action et être au centre de votre propre aventure dans le monde des sorciers. Votre héritage 
-                    vous appartient.</p>
+                <p><?php echo $game->getDescription() ?></p>
                 <div>
-                    <span class="badge green">Terminé</span>
+                    <span class="badge green"><?php echo $game->getStatus() ?></span>
                 </div>
             </div>
         </div>

@@ -79,27 +79,15 @@ require_once "layout/header.php";
 
             <div class="form-card">
                 <h3>Plateformes</h3>
-
                 <div class="checkbox-grid">
-                    <input type="checkbox" id="pc" name="platforms[]" value="pc">
-                    <label for="pc">PC</label>
-
-                    <input type="checkbox" id="ps5" name="platforms[]" value="ps5">
-                    <label for="ps5">PlayStation 5</label>
-
-                    <input type="checkbox" id="ps4" name="platforms[]" value="ps4">
-                    <label for="ps4">PlayStation 4</label>
-
-                    <input type="checkbox" id="xbox" name="platforms[]" value="xbox">
-                    <label for="xbox">Xbox Series X</label>
-
-                    <input type="checkbox" id="switch" name="platforms[]" value="switch">
-                    <label for="switch">Nintendo Switch</label>
-
-                    <input type="checkbox" id="ds" name="platforms[]" value="3ds">
-                    <label for="ds">Nintendo 3DS</label>
+                    <?php
+                    foreach ($allPlatforms as $value) {
+                        echo '
+                        <input type="checkbox" id="' . $value->getConsole() . '" name="platforms[]" value="' . $value->getId() . '">
+                        <label for="' . $value->getConsole() . '">' . $value->getConsole() . '</label>';
+                    }
+                    ?>
                 </div>
-
             </div>
 
 
@@ -107,29 +95,13 @@ require_once "layout/header.php";
                 <h3>Genres</h3>
 
                 <div class="checkbox-grid">
-                    <input type="checkbox" id="action" name="genres[]" value="action">
-                    <label for="action">Action</label>
-
-                    <input type="checkbox" id="aventure" name="genres[]" value="aventure">
-                    <label for="aventure">Aventure</label>
-
-                    <input type="checkbox" id="rpg" name="genres[]" value="rpg">
-                    <label for="rpg">RPG</label>
-
-                    <input type="checkbox" id="western" name="genres[]" value="western">
-                    <label for="western">Western</label>
-
-                    <input type="checkbox" id="openworld" name="genres[]" value="openworld">
-                    <label for="openworld">Monde ouvert</label>
-
-                    <input type="checkbox" id="sport" name="genres[]" value="sport">
-                    <label for="sport">Sport</label>
-
-                    <input type="checkbox" id="horror" name="genres[]" value="horror">
-                    <label for="horror">Horreur</label>
-
-                    <input type="checkbox" id="strategie" name="genres[]" value="strategie">
-                    <label for="strategie">Stratégie</label>
+                    <?php
+                    foreach ($allGenres as $value) {
+                        echo '
+                        <input type="checkbox" id="' . $value->getType() . '" name="genres[]" value="' . $value->getId() . '">
+                        <label for="' . $value->getType() . '">' . $value->getType() . '</label>';
+                    }
+                    ?>
                 </div>
             </div>
 

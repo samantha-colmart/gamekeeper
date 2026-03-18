@@ -7,8 +7,23 @@ use PDO;
 
 class Platform extends Database {
 
-    public function __construct() {
+    private int $id;
+    private string $console;
+
+    public function __construct(int $id, string $console) {
         parent::__construct();
+        $this->id = $id;
+        $this->console = $console;
+    }
+
+    // -------------------------------------- Getters ------------------------------------
+
+    public function getId(): int {
+        return $this->id;
+    }
+
+    public function getConsole(): string {
+        return $this->console;
     }
 
     // Méthode pour récupérer toutes les plateformes de jeu
@@ -17,7 +32,12 @@ class Platform extends Database {
         $sql = "SELECT * FROM platform";
         $query = $db->pdo->prepare($sql);
         $query->execute();
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $platforms = [];
+        foreach ($results as $row) {
+            $platforms[] = new Platform($row['id'], $row['console']);
+        }
+        return $platforms;
     }
 
     // Méthode pour récupérer toutes les plateformes d'un jeu
@@ -26,7 +46,20 @@ class Platform extends Database {
         $sql = "SELECT * FROM platform INNER JOIN game_platform ON platform.id = game_platform.platform_id WHERE game_platform.game_id = :game_id";
         $query = $db->pdo->prepare($sql);
         $query->execute([':game_id' => $game_id]);
-        return $query->fetchAll(PDO::FETCH_ASSOC);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $platforms = [];
+        foreach ($results as $row) {
+            $platforms[] = new Platform($row['id'], $row['console']);
+        }
+        return $platforms;
+    }
+
+    // Méthode pour lier une plateforme à un jeu
+    public static function addPlatformToGame(int $gameId, int $platformId): bool {
+        $db = new Database();
+        $sql = "INSERT INTO game_platform (game_id, platform_id) VALUES (:game_id, :platform_id)";
+        $query = $db->pdo->prepare($sql);
+        return $query->execute([':game_id' => $gameId, ':platform_id' => $platformId]);
     }
 }
 
