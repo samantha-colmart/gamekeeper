@@ -632,6 +632,10 @@ body {
     background:#214b9a;
 }
 
+.filters-checked{
+    background:#214b9a;
+}
+
 .grid-collection{
     display:grid;
     grid-template-columns:repeat(auto-fill,minmax(270px,1fr));

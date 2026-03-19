@@ -217,20 +217,6 @@ class Game extends Database {
         return new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
     }
 
-    // Méthode pour la barre de recherche
-    public static function searchByKeyword($keyword, $id_user) {
-        $db = new Database();
-        $sql = "SELECT * FROM game WHERE id_user = :id_user AND title LIKE :keyword";
-        $query = $db->pdo->prepare($sql);
-        $query->execute([':id_user' => $id_user,':keyword' => '%' . $keyword . '%']);
-        $results = $query->fetchAll(PDO::FETCH_ASSOC);
-        $games = [];
-        foreach ($results as $row) {
-            $games[] = new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
-        }
-        return $games;
-    }
-
     // Méthode pour compter le temps de jeu total
     public static function countTotalPlaytime(int $id_user): int {
         $db = new Database();
@@ -263,6 +249,58 @@ class Game extends Database {
             $games[] = new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
         }
         return $games;
+    }
+
+    public static function searchAdvanced($keyword, $platform, $genre, $status, $favorite, $id_user) {
+        $db = new Database();
+        $sql = "SELECT DISTINCT game.* FROM game
+                INNER JOIN game_platform ON game_platform.game_id = game.id
+                INNER JOIN platform ON platform.id = game_platform.platform_id
+                INNER JOIN game_genre ON game_genre.game_id = game.id
+                INNER JOIN genre ON genre.id = game_genre.genre_id
+                WHERE game.id_user = :id_user";
+
+        $params = [':id_user' => $id_user];
+
+        if ($keyword !== "") {
+            $sql .= " AND game.title LIKE :keyword";
+            $params[':keyword'] = "%$keyword%";
+        }
+
+        if ($platform !== "all") {
+            $sql .= " AND platform.console = :platform";
+            $params[':platform'] = $platform;
+        }
+
+        if ($genre !== "all") {
+            $sql .= " AND genre.type = :genre";
+            $params[':genre'] = $genre;
+        }
+
+        if ($status !== "all") {
+            $sql .= " AND game.status = :status";
+            $params[':status'] = $status;
+        }
+
+        if ($favorite !== "false") {
+            $sql .= " AND game.favorite = :favorite";
+            $params[':favorite'] = $favorite;
+        }
+
+        $query = $db->pdo->prepare($sql);
+        $query->execute($params);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($results as $key => $game) {
+            $platforms = Platform::getPlatformsByGame($game['id']);
+            $platformNames = [];
+            foreach ($platforms as $p) {
+                $platformNames[] = $p->getConsole();
+            }
+            $game['platforms'] = $platformNames;
+            $results[$key] = $game;
+        }
+
+        return $results;
     }
 
 }

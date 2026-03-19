@@ -134,26 +134,32 @@ class GameController {
     public function search() {
         if(isset($_GET['keyword'])) {
             $keyword = $_GET['keyword'];
+        } else {
+            $keyword = '';
+        }
+        if(isset($_GET['platform'])) {
+            $platform = $_GET['platform'];
+        } else {
+            $platform = 'all';
+        }
+        if(isset($_GET['genre'])) {
+            $genre = $_GET['genre'];
+        } else {
+            $genre = '';
+        }
+        if(isset($_GET['status'])) {
+            $status = $_GET['status'];
+        } else {
+            $status = 'all';
+        }
+        if(isset($_GET['favorite'])) {
+            $favorite = $_GET['favorite'];
+        } else {
+            $favorite = 'false';
         }
         $id_user = $_SESSION['user_id'];
-        $games = Game::searchByKeyword($keyword, $id_user);
-        $result = [];
-        foreach ($games as $game) {
-            $platforms = Platform::getPlatformsByGame($game->getId());
-            $platformNames = [];
-            foreach ($platforms as $p) {
-                $platformNames[] = $p->getConsole();
-            }
-            $result[] = [
-                "id" => $game->getId(),
-                "title" => $game->getTitle(),
-                "image" => $game->getImage(),
-                "note" => $game->getNote(),
-                "duration" => $game->getDuration(),
-                "platforms" => $platformNames
-            ];
-        }
-        echo json_encode($result);
+        $games = Game::searchAdvanced($keyword, $platform, $genre, $status, $favorite, $id_user);
+        echo json_encode($games);
     }
 
     public function deleteGame() {

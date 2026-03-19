@@ -25,7 +25,7 @@ require_once "layout/header.php";
                 <form action="" method="GET">
                     <div class="search-bar">
                         <i class="fa-brands fa-sistrix"></i>
-                        <input type="search" id="myKeyword" name="search" placeholder="Rechercher un jeu..." onkeyup="searchKeyword()" >
+                        <input type="search" id="myKeyword" name="search" placeholder="Rechercher un jeu..." >
                     </div>
                     <div class="filters">
                         <select name="platform" id="platform-select">
@@ -49,10 +49,10 @@ require_once "layout/header.php";
             </section>
         </div>
         <div class="bottom-filters">
-            <button class="btn-filters" type="button">Tous</button>
-            <button class="btn-filters" type="button">Terminé</button>
-            <button class="btn-filters" type="button">En cours</button>
-            <button class="btn-filters" type="button">Mes favoris</button>
+            <button class="btn-filters filters-checked" data-status="all">Tous</button>
+            <button class="btn-filters" data-status="Terminé">Terminé</button>
+            <button class="btn-filters" data-status="En cours">En cours</button>
+            <button class="btn-filters" data-status="favorite">Mes favoris</button>
         </div>
     </div>
     <?php
