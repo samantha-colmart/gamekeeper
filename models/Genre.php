@@ -69,6 +69,18 @@ class Genre extends Database {
         $stmt = $db->pdo->prepare($sql);
         return $stmt->execute([':game_id' => $gameId]);
     }
+
+    // Fonction pour récupérer toutes les plateformes d'un utilisateur
+    public static function breakdownByGenre(int $id_user): array {
+        $db = new Database();
+        $sql = "SELECT genre.type, COUNT(*) as total FROM game_genre
+                INNER JOIN genre ON game_genre.genre_id = genre.id
+                INNER JOIN game ON game_genre.game_id = game.id
+                WHERE game.id_user = :id_user GROUP BY genre.type ORDER BY total DESC";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

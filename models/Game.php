@@ -217,11 +217,46 @@ class Game extends Database {
         return new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
     }
 
+    // Méthode pour la barre de recherche
     public static function searchByKeyword($keyword, $id_user) {
         $db = new Database();
         $sql = "SELECT * FROM game WHERE id_user = :id_user AND title LIKE :keyword";
         $query = $db->pdo->prepare($sql);
         $query->execute([':id_user' => $id_user,':keyword' => '%' . $keyword . '%']);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $games = [];
+        foreach ($results as $row) {
+            $games[] = new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
+        }
+        return $games;
+    }
+
+    // Méthode pour compter le temps de jeu total
+    public static function countTotalPlaytime(int $id_user): int {
+        $db = new Database();
+        $sql = "SELECT SUM(duration) AS duration FROM game WHERE id_user = :id_user";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return (int)$result['duration'];
+    }
+
+    //Fonction pour compter le nombre total de jeux appartenant à la collection de l'utilisateur
+    public static function countGamePlayed(int $id_user): int {
+        $db = new Database();
+        $sql = "SELECT COUNT(*) AS gamePlayed FROM game WHERE id_user = :id_user AND status = :status";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user, 'status' => "Terminé"]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return (int)$result['gamePlayed'];
+    }
+
+    // Fonction pour récupérer le top 3 des jeux
+    public static function getTopGames(int $id_user): array {
+        $db = new Database();
+        $sql = "SELECT * FROM `game` WHERE id_user = :id_user ORDER BY note DESC LIMIT 3";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user]);
         $results = $query->fetchAll(PDO::FETCH_ASSOC);
         $games = [];
         foreach ($results as $row) {

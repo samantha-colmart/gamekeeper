@@ -42,6 +42,9 @@ switch ($action) {
     case 'search':
         $gameController->search();
         break;
+    case 'statistics':
+        $gameController->statistics();
+        break;
     default:
         require 'views/home.php';
 }

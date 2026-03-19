@@ -69,6 +69,18 @@ class Platform extends Database {
         $stmt = $db->pdo->prepare($sql);
         return $stmt->execute([':game_id' => $gameId]);
     }
+
+    // Fonction pour récupérer toutes les plateformes d'un utilisateur
+    public static function breakdownByPlateforme(int $id_user): array {
+        $db = new Database();
+        $sql = "SELECT platform.console, COUNT(*) as total FROM game_platform
+                INNER JOIN platform ON game_platform.platform_id = platform.id
+                INNER JOIN game ON game_platform.game_id = game.id
+                WHERE game.id_user = :id_user GROUP BY platform.console ORDER BY total DESC";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user]);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
 }
 
 ?>

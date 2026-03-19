@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Models\Game;
 use App\Models\Platform;
 use App\Models\Genre;
+use App\Models\User;
 
 class GameController {
 
@@ -270,6 +271,22 @@ class GameController {
             }
         }
         require 'views/update-game.php';
+    }
+
+    public function statistics() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        $user = User::getInformationsUser($_SESSION['user_id']);
+        $playtime = Game::countTotalPlaytime($_SESSION['user_id']);
+        $total = Game::countAll($_SESSION['user_id']);
+        $gamePlayed = Game::countGamePlayed($_SESSION['user_id']);
+        $completeness = ($gamePlayed / $total) * 100;
+        $topGames = Game::getTopGames($_SESSION['user_id']);
+        $platforms = Platform::breakdownByPlateforme($_SESSION['user_id']);
+        $genres = Genre::breakdownByGenre($_SESSION['user_id']);
+        require 'views/statistics.php';
     }
 
 }
