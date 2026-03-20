@@ -217,6 +217,100 @@ class Game extends Database {
         return new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
     }
 
+    // Méthode pour compter le temps de jeu total
+    public static function countTotalPlaytime(int $id_user): int {
+        $db = new Database();
+        $sql = "SELECT SUM(duration) AS duration FROM game WHERE id_user = :id_user";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return (int)$result['duration'];
+    }
+
+    //Fonction pour compter le nombre total de jeux appartenant à la collection de l'utilisateur
+    public static function countGamePlayed(int $id_user): int {
+        $db = new Database();
+        $sql = "SELECT COUNT(*) AS gamePlayed FROM game WHERE id_user = :id_user AND status = :status";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user, 'status' => "Terminé"]);
+        $result = $query->fetch(PDO::FETCH_ASSOC);
+        return (int)$result['gamePlayed'];
+    }
+
+    // Fonction pour récupérer le top 3 des jeux
+    public static function getTopGames(int $id_user): array {
+        $db = new Database();
+        $sql = "SELECT * FROM `game` WHERE id_user = :id_user ORDER BY note DESC LIMIT 3";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id_user' => $id_user]);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        $games = [];
+        foreach ($results as $row) {
+            $games[] = new Game($row['title'],$row['description'],$row['image'],$row['price'],$row['release_year'],$row['note'],$row['duration'],$row['favorite'],$row['status'],$row['studio'],$row['id_user'],$row['id']);
+        }
+        return $games;
+    }
+
+    public static function searchAdvanced($keyword, $platform, $genre, $status, $favorite, $id_user) {
+        $db = new Database();
+        $sql = "SELECT DISTINCT game.* FROM game
+                INNER JOIN game_platform ON game_platform.game_id = game.id
+                INNER JOIN platform ON platform.id = game_platform.platform_id
+                INNER JOIN game_genre ON game_genre.game_id = game.id
+                INNER JOIN genre ON genre.id = game_genre.genre_id
+                WHERE game.id_user = :id_user";
+
+        $params = [':id_user' => $id_user];
+
+        if ($keyword !== "") {
+            $sql .= " AND game.title LIKE :keyword";
+            $params[':keyword'] = "%$keyword%";
+        }
+
+        if ($platform !== "all") {
+            $sql .= " AND platform.console = :platform";
+            $params[':platform'] = $platform;
+        }
+
+        if ($genre !== "all") {
+            $sql .= " AND genre.type = :genre";
+            $params[':genre'] = $genre;
+        }
+
+        if ($status !== "all") {
+            $sql .= " AND game.status = :status";
+            $params[':status'] = $status;
+        }
+
+        if ($favorite === 1) {
+            $sql .= " AND game.favorite = :favorite";
+            $params[':favorite'] = 1;
+        }
+
+        $query = $db->pdo->prepare($sql);
+        $query->execute($params);
+        $results = $query->fetchAll(PDO::FETCH_ASSOC);
+        foreach ($results as $key => $game) {
+            $platforms = Platform::getPlatformsByGame($game['id']);
+            $platformNames = [];
+            foreach ($platforms as $p) {
+                $platformNames[] = $p->getConsole();
+            }
+            $game['platforms'] = $platformNames;
+            $results[$key] = $game;
+        }
+
+        return $results;
+    }
+
+    public static function updateFavorite($id, $favorite): bool {
+        $db = new Database();
+        $sql = "UPDATE game SET favorite = :favorite WHERE id = :id";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':favorite' => $favorite ? 1 : 0, ':id' => $id]);
+        return true;
+    }
+
 }
 
 

@@ -25,7 +25,7 @@ require_once "layout/header.php";
                 <form action="" method="GET">
                     <div class="search-bar">
                         <i class="fa-brands fa-sistrix"></i>
-                        <input type="search" name="search" placeholder="Rechercher un jeu...">
+                        <input type="search" id="myKeyword" name="search" placeholder="Rechercher un jeu..." >
                     </div>
                     <div class="filters">
                         <select name="platform" id="platform-select">
@@ -49,10 +49,10 @@ require_once "layout/header.php";
             </section>
         </div>
         <div class="bottom-filters">
-            <button class="btn-filters" type="button">Tous</button>
-            <button class="btn-filters" type="button">Terminé</button>
-            <button class="btn-filters" type="button">En cours</button>
-            <button class="btn-filters" type="button">Mes favoris</button>
+            <button class="btn-filters filters-checked" data-status="all">Tous</button>
+            <button class="btn-filters" data-status="Terminé">Terminé</button>
+            <button class="btn-filters" data-status="En cours">En cours</button>
+            <button class="btn-filters" data-status="favorite">Mes favoris</button>
         </div>
     </div>
     <?php
@@ -71,7 +71,7 @@ require_once "layout/header.php";
                         </div>
                         <div class="card-content">
                             <h2>' . $game->getTitle() . '</h2>
-                            <div class="badge-line">';
+                            <div class="badges-flex">';
                                 foreach ($game->getPlatforms() as $platform) {
                                     echo '<p class="cyan">' . $platform->getConsole() . '</p>';
                                 }
@@ -81,9 +81,6 @@ require_once "layout/header.php";
                                     <i class="fa-regular fa-clock"></i>
                                     <p>' . $game->getDuration() . 'h de jeu</p>
                                 </div>
-                                <button type="submit" name="like" class="like-btn">
-                                    <i class="fa-solid fa-heart"></i>
-                                </button>
                             </div>
                         </div>
                     </article>
@@ -96,7 +93,7 @@ require_once "layout/header.php";
     }
     ?>
 </section>
-
+<script src="js/collection.js"></script>
 <?php
 require_once "layout/footer.php";
 ?>

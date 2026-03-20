@@ -1,0 +1,1 @@
+ErrorDocument 404 http://localhost/WEB/Annee1/Gamekeeper/index.php?action=error404

@@ -61,4 +61,17 @@ class User extends Database {
         return $query->fetch(PDO::FETCH_ASSOC);
     }
 
+    //Fonction pour récupérer les informations de l'utilisateur
+    public static function getInformationsUser(int $id): ?User {
+        $db = new Database();
+        $sql = "SELECT * FROM user WHERE id = :id";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':id' => $id]);
+        $row = $query->fetch(PDO::FETCH_ASSOC);
+        if (!$row) {
+            return null;
+        }
+        return new User($row['pseudo'],$row['email'],$row['password']);
+    }
+
 }

@@ -30,6 +30,24 @@ switch ($action) {
     case 'game-details':
         $gameController->GameDetails();
         break;
+    case 'update-game':
+        $gameController->updateGame();
+        break;
+    case 'delete-game':
+        $gameController->deleteGame();
+        break;
+    case 'error404':
+        $gameController->error404();
+        break;
+    case 'search':
+        $gameController->search();
+        break;
+    case 'statistics':
+        $gameController->statistics();
+        break;
+    case 'like':
+        $gameController->like();
+        break;
     default:
         require 'views/home.php';
 }

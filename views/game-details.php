@@ -1,5 +1,6 @@
 <?php
 require_once "layout/header.php";
+
 ?>
 
 <section class="game-page">
@@ -9,27 +10,28 @@ require_once "layout/header.php";
             <span><?php echo $game->getNote() ?> / 10</span>
         </div>
         <img src="images/<?php echo $game->getImage() ?>" alt="<?php echo $game->getTitle() ?>">
-        <div class="favorite">
+        <button class="favorite <?php echo $game->getFavorite() ? 'liked' : ''; ?>" id="like" data-game-id="<?php echo $game->getId() ?>">
             <i class="fa-solid fa-heart"></i>
-        </div>
+        </button>
     </div>
     <div class="right-column">
         <div class="game-info">
             <div class="game-info-header">
                 <h1><?php echo $game->getTitle() ?></h1>
                 <div class="actions">
-                    <a href="">
+                    <a href="index.php?action=update-game&id=<?php echo $game->getId() ?>">
                         <button class="edit">
                             <i class="fa-solid fa-pen-to-square"></i>
                             Modifier
                         </button>
                     </a>
-                    <a href="">
-                        <button class="delete">
+                    <form action="index.php?action=delete-game" method="POST">
+                        <input type="hidden" name="id" value="<?php echo $game->getId() ?>">
+                        <button type="submit" class="delete">
                             <i class="fa-solid fa-trash"></i>
                             Supprimer
                         </button>
-                    </a>
+                    </form>
                 </div>
             </div>
             <div class="stats">
@@ -57,19 +59,23 @@ require_once "layout/header.php";
             </div>
             <div class="info-block">
                 <label>Plateforme</label>
-                <?php
-                foreach ($game->getPlatforms() as $platform) {
-                    echo '<span class="badge purple">' . $platform->getConsole() . '</span>';
-                }
-                ?>
+                <div class="badges-flex">
+                    <?php
+                    foreach ($game->getPlatforms() as $platform) {
+                        echo '<span class="badge purple">' . $platform->getConsole() . '</span>';
+                    }
+                    ?>
+                </div>
             </div>
             <div class="info-block">
                 <label>Genre</label>
-                <?php
-                foreach ($game->getGenres() as $genre) {
-                    echo '<span class="badge cyan">' . $genre->getType() . '</span>';
-                }
-                ?>
+                <div class="badges-flex">
+                    <?php
+                    foreach ($game->getGenres() as $genre) {
+                        echo '<span class="badge cyan">' . $genre->getType() . '</span>';
+                    }
+                    ?>
+                </div>
             </div>
             <div class="developer">
                 <i class="fa-solid fa-building blue"></i>
@@ -90,6 +96,7 @@ require_once "layout/header.php";
         </div>
     </div>
 </section>
+<script src="js/like.js"></script>
 
 <?php
 require_once "layout/footer.php";
