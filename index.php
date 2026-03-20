@@ -45,6 +45,9 @@ switch ($action) {
     case 'statistics':
         $gameController->statistics();
         break;
+    case 'like':
+        $gameController->like();
+        break;
     default:
         require 'views/home.php';
 }

@@ -1,5 +1,6 @@
 <?php
 require_once "layout/header.php";
+
 ?>
 
 <section class="game-page">
@@ -9,9 +10,9 @@ require_once "layout/header.php";
             <span><?php echo $game->getNote() ?> / 10</span>
         </div>
         <img src="images/<?php echo $game->getImage() ?>" alt="<?php echo $game->getTitle() ?>">
-        <div class="favorite">
+        <button class="favorite <?php echo $game->getFavorite() ? 'liked' : ''; ?>" id="like" data-game-id="<?php echo $game->getId() ?>">
             <i class="fa-solid fa-heart"></i>
-        </div>
+        </button>
     </div>
     <div class="right-column">
         <div class="game-info">
@@ -95,6 +96,7 @@ require_once "layout/header.php";
         </div>
     </div>
 </section>
+<script src="js/like.js"></script>
 
 <?php
 require_once "layout/footer.php";

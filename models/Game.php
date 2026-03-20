@@ -282,9 +282,9 @@ class Game extends Database {
             $params[':status'] = $status;
         }
 
-        if ($favorite !== "false") {
+        if ($favorite === 1) {
             $sql .= " AND game.favorite = :favorite";
-            $params[':favorite'] = $favorite;
+            $params[':favorite'] = 1;
         }
 
         $query = $db->pdo->prepare($sql);
@@ -301,6 +301,14 @@ class Game extends Database {
         }
 
         return $results;
+    }
+
+    public static function updateFavorite($id, $favorite): bool {
+        $db = new Database();
+        $sql = "UPDATE game SET favorite = :favorite WHERE id = :id";
+        $query = $db->pdo->prepare($sql);
+        $query->execute([':favorite' => $favorite ? 1 : 0, ':id' => $id]);
+        return true;
     }
 
 }

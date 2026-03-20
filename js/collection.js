@@ -3,7 +3,7 @@ const filters = {
     platform: "all",
     genre: "all",
     status: "all",
-    favorite: "false"
+    favorite: 0
 };
 
 const container = document.querySelector(".grid-collection");
@@ -79,9 +79,10 @@ btns.forEach(btn => {
         filters.status = status;
 
         if (status === "favorite") {
-            filters.favorite = "true";
+            filters.favorite = 1;
+            filters.status = "all";
         } else {
-            filters.favorite = "false";
+            filters.favorite = 0;
         }
 
         fetchGames();

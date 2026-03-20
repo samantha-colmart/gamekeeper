@@ -153,9 +153,9 @@ class GameController {
             $status = 'all';
         }
         if(isset($_GET['favorite'])) {
-            $favorite = $_GET['favorite'];
+            $favorite = (int)$_GET['favorite'];
         } else {
-            $favorite = 'false';
+            $favorite = 0;
         }
         $id_user = $_SESSION['user_id'];
         $games = Game::searchAdvanced($keyword, $platform, $genre, $status, $favorite, $id_user);
@@ -293,6 +293,28 @@ class GameController {
         $platforms = Platform::breakdownByPlateforme($_SESSION['user_id']);
         $genres = Genre::breakdownByGenre($_SESSION['user_id']);
         require 'views/statistics.php';
+    }
+
+    public function like() {
+        if (!isset($_SESSION['user_id'])) {
+            header("Location: index.php?action=login");
+            exit;
+        }
+        if(isset($_GET['gameId'])) {
+            $gameId = $_GET['gameId'];
+        }
+
+        $userId = $_SESSION['user_id'];
+        $game = Game::getById($gameId);
+
+        if ($game->getIdUser() !== $userId) {
+            echo json_encode(['success' => false]);
+            return;
+        }
+
+        $newFavorite = !$game->getFavorite();
+        Game::updateFavorite($gameId, $newFavorite);
+        echo json_encode(['success' => true,'liked' => $newFavorite]);
     }
 
 }
