@@ -18,3 +18,15 @@ function previewImage(e) {
 }
 
 document.getElementById("cover").addEventListener("change", previewImage);
+
+const image = document.getElementById("previewImage");
+const inputImage = document.querySelector(".inputImage");
+
+
+if (image.getAttribute("src") && image.getAttribute("src") !== "images/") {
+    inputImage.style.display = "none";
+    image.style.display = "block";
+} else {
+    image.style.display = "none";
+    inputImage.style.display = "flex";
+}

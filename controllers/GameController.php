@@ -288,7 +288,11 @@ class GameController {
         $playtime = Game::countTotalPlaytime($_SESSION['user_id']);
         $total = Game::countAll($_SESSION['user_id']);
         $gamePlayed = Game::countGamePlayed($_SESSION['user_id']);
-        $completeness = ($gamePlayed / $total) * 100;
+        if($total !== 0) {
+            $completeness = round(($gamePlayed / $total) * 100,2);
+        } else {
+            $completeness = 0;
+        }
         $topGames = Game::getTopGames($_SESSION['user_id']);
         $platforms = Platform::breakdownByPlateforme($_SESSION['user_id']);
         $genres = Genre::breakdownByGenre($_SESSION['user_id']);
