@@ -1,5 +1,5 @@
 {
-    "name": "loren/game-keeper",
+    "name": "saman/gamekeeper",
     "description": "Educational PHP project built with Composer.",
     "type": "project",
     "autoload": {
@@ -9,8 +9,8 @@
     },
     "authors": [
         {
-            "name": "lorenzo-brissardnavarro",
-            "email": "lorenzo.brissardnavarro@laplateforme.io"
+            "name": "samantha-colmart",
+            "email": "samantha.colmart@laplateforme.io"
         }
     ],
     "require": {}
